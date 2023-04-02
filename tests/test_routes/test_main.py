@@ -1,6 +1,6 @@
 
 
-def test_user_create(test_client, user_payload):
-    response = test_client.get("/blog")
-    assert response.status_code == 200
+def test_user_create(test_client, blog_payload):
+    response = test_client.post("/blog",json=blog_payload)
+    assert response.status_code == 201
   
