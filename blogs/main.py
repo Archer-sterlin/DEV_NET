@@ -34,7 +34,7 @@ async def token(form_data:OAuth2PasswordRequestFormStrict=Depends()):
 async def root(token:str=Depends(oauth2_scheme)):
     return {"token":token}
  
-@app.post('/blog', status_code=status.HTTP_201_CREATED, response_model=ShowBlog)
+@app.post('/blog', response_model=ShowBlog)
 def create(request:blog_schema, db:Session=Depends(get_db)):
     blog = Blog(title=request.title, body=request.body)
     db.add(blog)
@@ -55,7 +55,7 @@ def get_blog( response:Response, blog_id:int,db:Session=Depends(get_db) ):
     return blog 
 
 
-@app.delete('/blog/{blog_id}', status_code=201)
+@app.delete('/blog/{blog_id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_blog( response:Response, blog_id:int, db:Session=Depends(get_db) ):
     blog = db.query(Blog).filter(Blog.id==blog_id)
     if not blog.first():
