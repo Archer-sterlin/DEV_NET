@@ -4,8 +4,8 @@ from fastapi import Depends, FastAPI, HTTPException, Response, status
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestFormStrict
 from .database import SessionLocal, engine
-from .models import Base, Blog
-from .schemas import Blog as blog_schema
+from .models import Base, Blog, User
+from .schemas import Blog as blog_schema, ReturnUser, User as user_schema
 from .schemas import ShowBlog
 
 
@@ -41,6 +41,21 @@ def create(request:blog_schema, db:Session=Depends(get_db)):
     db.commit()
     db.refresh(blog)
     return blog
+
+
+@app.post('/user', response_model=ReturnUser)
+def create(request:user_schema, db:Session=Depends(get_db)):
+    user = User(
+        name=request.name, 
+        email=request.email, 
+        is_active=request.is_active,
+        password=request.password,
+        )
+   
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
 
 @app.get('/blog', status_code=status.HTTP_200_OK, response_model=List[ShowBlog])
 def get_blogs( db:Session=Depends(get_db)):
