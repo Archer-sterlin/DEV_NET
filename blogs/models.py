@@ -9,8 +9,8 @@ class Blog(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     body = Column(String)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    author  = relationship("User", back_populates="blogs")
+    # user_id = Column(Integer, ForeignKey('user.id'))
+    # author  = relationship("User", back_populates="blogs")
 
 
 class User(Base):
@@ -21,7 +21,7 @@ class User(Base):
     is_active:bool = Column(Boolean)
     is_admin:bool= Column(Boolean)
     password:str = Column(String)
-    blogs = relationship("Blog", back_populates="author")
+    # blogs = relationship("Blog", back_populates="author")
 
 
 
