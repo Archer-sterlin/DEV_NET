@@ -55,7 +55,7 @@ def get_blog( response:Response, blog_id:int,db:Session=Depends(get_db) ):
     return blog 
 
 
-@app.delete('/blog/{blog_id}', status_code=status.HTTP_204_NO_CONTENT)
+@app.delete('/blog/{blog_id}', status_code=201)
 def delete_blog( response:Response, blog_id:int, db:Session=Depends(get_db) ):
     blog = db.query(Blog).filter(Blog.id==blog_id)
     if not blog.first():
